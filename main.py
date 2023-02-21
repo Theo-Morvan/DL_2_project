@@ -26,7 +26,7 @@ if __name__=="__main__":
     
     
     image = image.detach().numpy().reshape((20,16))
-    dbn = DBN([50,50,50], 320)
+    dbn = DBN([40,50,40], 320)
     dbn.train_DBN(X, 0.01, 16, 2000)
 
     images = dbn.generate_image_DBN(2,2)
