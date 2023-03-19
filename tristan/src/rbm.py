@@ -16,7 +16,7 @@ class RBM:
     def sortie_entree(self, H):
         return sigmoid(H @ self.W.T + self.a)
     
-    def train(self, X, lr, batch_size, nb_epochs):
+    def train(self, X, lr, batch_size, nb_epochs, verbose=True):
         for epoch in range(nb_epochs):
             for i in range(0, len(X), batch_size):
                 X_batch = X[i:min(i + batch_size, X.shape[0])].copy()
@@ -36,7 +36,8 @@ class RBM:
                 self.a += lr / len(v_0) * grad_a
                 self.b += lr / len(v_0) * grad_b
                 self.W += lr / len(v_0) * grad_W
-            print("Epoch %d, erreur quadratique moyenne de reconstruction : %f" % (epoch, np.mean((X - self.sortie_entree(self.entree_sortie(X)))**2)))
+            if verbose:
+                print("Epoch %d, erreur quadratique moyenne de reconstruction : %f" % (epoch, np.mean((X - self.sortie_entree(self.entree_sortie(X)))**2)))
 
     # def generer_image(self, nb_iter, nb_images):
     #     H = np.random.binomial(1, 0.5, (nb_images, self.output_size))
