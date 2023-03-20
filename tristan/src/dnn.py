@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 
 from src.dbn import DBN
 from scipy.special import softmax
@@ -9,8 +10,8 @@ class DNN:
         self.W = np.random.normal(0, 0.01, (sizes[-2], sizes[-1]))
         self.b = np.zeros(sizes[-1])
 
-    def pretrain(self, X, lr, batch_size, nb_epochs):
-        self.dbn.train(X, lr, batch_size, nb_epochs)
+    def pretrain(self, X, lr, batch_size, nb_epochs, verbose=True):
+        self.dbn.train(X, lr, batch_size, nb_epochs, verbose=verbose)
     
     def calcul_softmax(self, X):
         return softmax(np.dot(X, self.W) + self.b, axis=1)
@@ -23,8 +24,11 @@ class DNN:
         sorties.append(self.calcul_softmax(X))
         return sorties
     
-    def retropropagation(self, X, y, lr, batch_size, nb_epochs):
-        for epoch in range(nb_epochs):
+    def retropropagation(self, X, y, lr, batch_size, nb_epochs, verbose=True):
+        iterator = tqdm(range(nb_epochs)) if not verbose else range(nb_epochs)
+        if not verbose:
+            iterator.set_description(f"Retropropagation | Cross entropy loss: {None} | Epoch")
+        for epoch in iterator:
             for i in range(0, X.shape[0], batch_size):
                 X_batch = X[i:min(i+batch_size, X.shape[0])]
                 y_batch = y[i:min(i+batch_size, y.shape[0])]
@@ -56,10 +60,13 @@ class DNN:
 
             sorties = self.entree_sortie(X)
             cross_entropy = -np.sum(y * np.log(sorties[-1])) / X.shape[0]
-            print(f"Epoch {epoch+1}/{nb_epochs} - Cross entropy: {cross_entropy}")
-
+            if verbose:
+                print(f"Epoch {epoch+1}/{nb_epochs} - Cross entropy: {cross_entropy}")
+            else:
+                iterator.set_description(f"Retropropagation | Cross entropy loss: {cross_entropy:.4f} | Epoch")
+    
     def test(self, X, y):
         sorties = self.entree_sortie(X)
         y_pred = np.argmax(sorties[-1], axis=1)
         y_true = np.argmax(y, axis=1)
-        return np.sum(y_pred == y_true) / y.shape[0]
+        return np.sum(y_pred != y_true) / y.shape[0]

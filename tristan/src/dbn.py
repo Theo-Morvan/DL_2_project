@@ -1,3 +1,4 @@
+from tqdm import tqdm
 from src.rbm import RBM
 import numpy as np
 
@@ -7,9 +8,12 @@ class DBN:
         for i in range(len(sizes) - 1):
             self.rbms.append(RBM(sizes[i], sizes[i + 1]))
 
-    def train(self, X, lr, batch_size, nb_epochs):
-        for rbm in self.rbms:
-            rbm.train(X, lr, batch_size, nb_epochs)
+    def train(self, X, lr, batch_size, nb_epochs, verbose=True):
+        iterator = tqdm(self.rbms) if not verbose else self.rbms
+        if not verbose:
+            iterator.set_description(f"DBN Training | RBM")
+        for rbm in iterator:
+            rbm.train(X, lr, batch_size, nb_epochs, verbose=verbose)
             X = rbm.entree_sortie(X)
 
     # def generer_image(self, nb_iter, nb_images):
