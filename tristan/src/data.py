@@ -17,6 +17,44 @@ def lire_alpha_digits(path, char):
         X[i,:] = data[start, i].flatten()
     return X
 
+def lire_alpha_digit_full(caracteres:list):
+    mat = scipy.io.loadmat('data/binaryalphadigs.mat')
+    data = mat["dat"]
+    NUM = 31
+    if type(caracteres)==list:
+        number_values = len(caracteres)
+        X = np.zeros((number_values*39, 20*16))
+        j = 0
+        for caractere in caracteres:
+            try:
+                caractere = int(caractere)
+                if caractere>9:
+                    raise(ValueError('integer should be lower or equal than 9 '))
+                position = caractere
+            except:
+                position = (ord(caractere)& NUM)+9
+            for i in range(39):
+                place = j*39 + i
+                X[place,:] = data[position, i].flatten()
+            j+=1
+        return X          
+    elif type(caracteres)==str:
+        position = (ord(caracteres)& NUM)+9
+        X = np.zeros((39, 20*16))
+        for i in range(39):
+            X[i,:] = data[position,i].flatten()
+        return X
+    elif type(caracteres)==int:
+        if caracteres>9:
+            raise(ValueError('integer should be lower or equal than 9 '))
+        position = caracteres
+        X = np.zeros((39, 20*16))
+        for i in range(39):
+            X[i,:] = data[position,i].flatten() 
+        return X       
+    else:
+        raise(TypeError('input should be either a list, string or integer'))
+
 def lire_mnist(path_train, path_test):
     mnist_train = pd.read_csv(path_train)
     mnist_test = pd.read_csv(path_test)
