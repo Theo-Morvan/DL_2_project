@@ -28,7 +28,7 @@ class VAE_Encoder(nn.Module):
 class VAE(nn.Module):
 
     def __init__(self, input_size, middle_layer_size, latent_dim ) -> None:
-        super(VAE,self).__init__()
+        super().__init__()
 
         self.latent_dim = latent_dim
         self.input_size = input_size
@@ -65,6 +65,7 @@ class Dataset(torch.utils.data.Dataset):
         path_data:str,
         labels=None
     ):
+        super(torch.utils.data.Dataset, self).__init__()
         data_train = pd.read_csv(path_data)
         if labels!= None:
             try:
