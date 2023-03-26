@@ -39,13 +39,7 @@ class RBM:
             if verbose:
                 print("Epoch %d, erreur quadratique moyenne de reconstruction : %f" % (epoch, np.mean((X - self.sortie_entree(self.entree_sortie(X)))**2)))
 
-    # def generer_image(self, nb_iter, nb_images):
-    #     H = np.random.binomial(1, 0.5, (nb_images, self.output_size))
-    #     for i in range(nb_iter):
-    #         V = self.sortie_entree(H)
-    #         H = self.entree_sortie(V)
-    #     return V
-    
+   
     def generer_image(self, nb_iters_Gibbs, nb_images):
         images = np.zeros((nb_images, self.input_size))
         for i in range(nb_images):
