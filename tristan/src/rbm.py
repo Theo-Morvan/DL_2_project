@@ -51,7 +51,7 @@ class RBM:
         for i in range(nb_images):
             v = ((np.random.rand(self.input_size)<1/2)*1)     
             for iter_gibb in range(nb_iters_Gibbs):
-                h = ((np.random.rand(self.output_size)<self.entree_sortie(v))*1)
-                v = ((np.random.rand(self.input_size)<self.sortie_entree(h))*1)
+                h = (np.random.rand(self.output_size)<self.entree_sortie(v))*1
+                v = (np.random.rand(self.input_size)<self.sortie_entree(h))*1
             images[i,:] = v
         return images
