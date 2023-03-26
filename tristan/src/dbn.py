@@ -15,12 +15,6 @@ class DBN:
         for rbm in iterator:
             rbm.train(X, lr, batch_size, nb_epochs, verbose=verbose)
             X = rbm.entree_sortie(X)
-
-    # def generer_image(self, nb_iter, nb_images):
-    #     V = self.rbms[-1].generer_image(nb_iter, nb_images)
-    #     for rbm in reversed(self.rbms[:-1]):
-    #         V = rbm.sortie_entree(V)
-    #     return V
     
     def generer_image(self, nb_iters_Gibbs, nb_images):
         for j in range(nb_images):
