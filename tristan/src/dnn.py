@@ -28,6 +28,8 @@ class DNN:
         iterator = tqdm(range(nb_epochs)) if not verbose else range(nb_epochs)
         if not verbose:
             iterator.set_description(f"Retropropagation | Cross entropy loss: {None} | Epoch")
+        
+        losses = []
         for epoch in iterator:
             for i in range(0, X.shape[0], batch_size):
                 X_batch = X[i:min(i+batch_size, X.shape[0])]
@@ -60,11 +62,13 @@ class DNN:
 
             sorties = self.entree_sortie(X)
             cross_entropy = -np.sum(y * np.log(sorties[-1])) / X.shape[0]
+            losses.append(cross_entropy)
             if verbose:
                 print(f"Epoch {epoch+1}/{nb_epochs} - Cross entropy: {cross_entropy}")
             else:
                 iterator.set_description(f"Retropropagation | Cross entropy loss: {cross_entropy:.4f} | Epoch")
-    
+        return losses
+
     def test(self, X, y):
         sorties = self.entree_sortie(X)
         y_pred = np.argmax(sorties[-1], axis=1)
