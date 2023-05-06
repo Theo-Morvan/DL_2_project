@@ -45,3 +45,6 @@ unzip data/mnist_train.csv.zip -d data/
 Nous avons fait tourner nos expériences dans deux notebooks Jupyter: `test.ipynb` et `study.ipynb`. Le notebook `test.ipynb` présente l'entraînement et la génération sur `Binary AlphaDigits`, tandis que nous avons utilisé `study.ipynb` pour générer les diagrammes utilisés dans l'étude sur les données de `MNIST`. Pour reproduire nos résultats, il suffit de faire tourner les deux notebooks.
 
 Enfin les tests concernant la partie bonus ont été effectués dans le notebook `test_vae.ipynb` et permettent de relancer l'entrainement des différents modèles ainsi que la génération d'images.
+
+## Fichiers contenant les fonctions
+Les fichiers python dans lesquels sont définies les différentes classes du projet se trouve dans le répertoire .\src . Chaque fichier une partie du projet (data.py pour la lecture des images, rbm.py pour le rbm et ainsi de suite pour les différentes classes).

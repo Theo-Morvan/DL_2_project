@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy
 
-
 def display_alpha_digit(x):
     plt.imshow(x.reshape((20,16)), cmap='gray')
     plt.show()
